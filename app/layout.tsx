@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { Schibsted_Grotesk, Martian_Mono } from "next/font/google";
+import LightRays from "@/components/LightRays";
+import "./globals.css"
 
-const fontSans = Plus_Jakarta_Sans({
-  variable: "--font-sans",
+const schibstedGrotesk = Schibsted_Grotesk({
+  variable: "--font-schibsted-grotesk",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
 });
 
 
+const martianMono = Martian_Mono({
+  variable: "--font-martian-mono",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "Welcome to NextJs",
-  description: "NextJs",
+  title: "DevExpress",
+  description: "Dev events you mustn't miss!",
 };
 
 export default function RootLayout({
@@ -22,9 +27,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn('min-h-screen bg-dark-300 font-sans antialiased', fontSans.variable)}
+        className={`${schibstedGrotesk.variable} ${martianMono.variable} min-h-screen antialiased`}
       >
-        {children}
+
+        <div className="absolute inset-0 top-0 z-[-1] min-h-screen">
+          <LightRays
+            raysOrigin="top-center-offset"
+            raysColor="#5dfeca"
+            raysSpeed={0.5}
+            lightSpread={0.9}
+            rayLength={1.4}
+            followMouse={true}
+            mouseInfluence={0.02}
+            noiseAmount={0}
+            distortion={0.01}
+          />
+        </div>
+        <main>
+          {children}
+        </main>
       </body>
     </html>
   );
