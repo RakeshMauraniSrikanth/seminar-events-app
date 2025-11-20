@@ -45,6 +45,8 @@ BookingSchema.index({ eventId: 1 }, { unique: true });
 BookingSchema.index({ eventId: 1, createdAt: -1 });
 
 BookingSchema.index({ email: 1 });
+
+BookingSchema.index({ email: 1, eventId: 1 }, { unique: true, name: "unique_email_event" });
 const Booking = models.Booking || model<IBooking>("Booking", BookingSchema);
 
 export default Booking;
