@@ -79,7 +79,7 @@ function generateSlug(title: string): string {
 
 function normalizeDate(dateStr: string): string {
     const date = new Date(dateStr);
-    if (isNaN(date.getTime())) {
+    if (Number.isNaN(date.getTime())) {
         throw new Error('Invalid date format');
     }
     return date.toISOString().split('T')[0];
