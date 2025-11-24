@@ -5,7 +5,7 @@ import { IEvent } from '@/database'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 const Page = async () => {
-    const response = await fetch(`http://localhost:3000/api/events`)
+    const response = await fetch(`${BASE_URL}/api/events`)
     const {events} = await response.json()
 
     return (
@@ -16,7 +16,7 @@ const Page = async () => {
             <ExploreBtn />
             <div className='mt-20 space-y-7'>
                 <h3>Featured</h3>
-                <ul className='events'>
+                <ul className='events list-none p-0 m-0'>
                     {events && events.length > 0 && events.map((event:IEvent) => (
                         <li key={event.title}>
                             <EventCard {...event}/>

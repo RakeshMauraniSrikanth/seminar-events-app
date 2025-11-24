@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Event } from "@/database";
 import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
@@ -24,6 +24,10 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'Image file is required' }, { status: 400 })
         }
 
+        const tags = JSON.parse(formData.get('tags') as string)
+        const agenda = JSON.parse(formData.get('agenda') as string)
+
+
         const arrayBuffer = await file.arrayBuffer()
         const buffer = Buffer.from(arrayBuffer)
 
@@ -37,7 +41,11 @@ export async function POST(req: NextRequest) {
 
         event.image = (uploadResult as { secure_url: string }).secure_url
 
-        const createdEvent = await Event.create(event)
+        const createdEvent = await Event.create({
+            ...event,
+            tags: tags,
+            agenda: agenda,
+        })
 
         return NextResponse.json({ message: 'Event created successfully', event: createdEvent }, { status: 200 })
 
