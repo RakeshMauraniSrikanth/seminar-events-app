@@ -4,6 +4,7 @@ import BookEvent from "@/components/BookEvent"
 import { getSimilarEventsBySlug } from "@/lib/actions/event.actions"
 import { IEvent } from "@/database"
 import EventCard from "@/components/EventCard"
+import { cacheLife } from "next/cache"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -35,6 +36,8 @@ const EventTags = ({ tags }: { tags: string[] }) => (
 )
 
 const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+    'use cache'
+    cacheLife('hours')
 
     const { slug } = await params
     const booking = 10;
@@ -122,19 +125,21 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> 
                             <p className="text-sm">Be the first to book a spot</p>
                         )
                         }
-                        <BookEvent />
+                        <BookEvent eventId={eventData._id} slug = {eventData.slug}/>
                     </div>
                 </aside>
             </div>
+            <section className="flex-col-gap-2 pt-20">
 
-            <div className="flex w-full flex-col gap-4 pt-20">
-                <h2>Similar Event</h2>
-                <div className="events">
-                    {similarEvent.length > 0 && similarEvent.map((similarEvent: IEvent) => (
-                        <EventCard key={similarEvent.title} {...similarEvent} />
-                    ))}
+                <div >
+                    <h2>Similar Event</h2>
+                    <div className="events pt-20 mt-10">
+                        {similarEvent.length > 0 && similarEvent.map((similarEvent: IEvent) => (
+                            <EventCard key={similarEvent.title} {...similarEvent} />
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </section>
         </section>
     )
 }
